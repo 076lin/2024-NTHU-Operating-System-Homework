@@ -244,8 +244,7 @@ void Scheduler::updatePriority(){
         iter1->Item()->setPriority(newPriority);
         DEBUG('z',"[C] Tick ["<<kernel->stats->totalTicks<<"]: Thread ["<<iter1->Item()->getID()<<"] changes its priority from ["
         <<oldPriority<<"] to ["<<newPriority<<"]");
-        L1ReadyList->Remove(iter1->Item());
-        ReadyToRun(iter1->Item());
+        iter1->Item()->setStartWaitingTime(kernel->stats->totalTicks);
       }
     }
     delete iter1;
@@ -261,8 +260,15 @@ void Scheduler::updatePriority(){
         iter2->Item()->setPriority(newPriority);
         DEBUG('z',"[C] Tick ["<<kernel->stats->totalTicks<<"]: Thread ["<<iter2->Item()->getID()<<"] changes its priority from ["
         <<oldPriority<<"] to ["<<newPriority<<"]");
-        L2ReadyList->Remove(iter2->Item());
-        ReadyToRun(iter2->Item());
+        if(newPriority > 99){
+            DEBUG('z',"[B] Tick ["<<kernel->stats->totalTicks<<"]: Thread ["<<iter2->Item()->getID()<<"] is removed from queue L[2]");
+            L2ReadyList->Remove(iter2->Item());
+            ReadyToRun(iter2->Item());
+        }else{
+            L2ReadyList->Remove(iter2->Item());
+            iter2->Item()->setStartWaitingTime(kernel->stats->totalTicks);
+            L2ReadyList->Insert(iter2->Item());
+        }
       }
     }
     delete iter2;
@@ -278,8 +284,13 @@ void Scheduler::updatePriority(){
         iter3->Item()->setPriority(newPriority);
         DEBUG('z',"[C] Tick ["<<kernel->stats->totalTicks<<"]: Thread ["<<iter3->Item()->getID()<<"] changes its priority from ["
         <<oldPriority<<"] to ["<<newPriority<<"]");
-        L3ReadyList->Remove(iter3->Item());
-        ReadyToRun(iter3->Item());
+        if(newPriority > 49){
+            DEBUG('z',"[B] Tick ["<<kernel->stats->totalTicks<<"]: Thread ["<<iter3->Item()->getID()<<"] is removed from queue L[3]");
+            L3ReadyList->Remove(iter3->Item());
+            ReadyToRun(iter3->Item());
+        }else{
+            iter3->Item()->setStartWaitingTime(kernel->stats->totalTicks);
+        }
       }
     }
     delete iter3;
