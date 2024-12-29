@@ -14,7 +14,7 @@ scl enable devtoolset-8 'make'
 
 # Step 4: 執行 main 程式，並傳遞參數
 echo "Running main with parameters 4000 ./tests/01.in ./tests/01.out..."
-./main 4000 ./tests/01.in ./tests/01.out
+time ./main 4000 ./tests/01.in ./tests/01.out
 
 # Step 5: 驗證輸出的結果
 echo "Running verify script..."

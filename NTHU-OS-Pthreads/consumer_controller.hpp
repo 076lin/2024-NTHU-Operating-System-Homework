@@ -25,6 +25,7 @@ public:
 	// destructor
 	~ConsumerController();
 	virtual void start();
+
 private:
 	std::vector<Consumer*> consumers;
 
