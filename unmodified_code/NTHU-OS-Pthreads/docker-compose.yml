@@ -1,9 +1,0 @@
-version: "3.8"
-
-services:
-  build:
-    image: gcc:latest
-    working_dir: /src
-    volumes:
-      - .:/src
-    command: make

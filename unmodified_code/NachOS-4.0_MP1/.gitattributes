@@ -1,2 +1,0 @@
-# Prevent EOL conversion for all scripts
-*.sh eol=lf
