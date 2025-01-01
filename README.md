@@ -11,7 +11,7 @@
 * Report&Spec 放的是我的報告 ( Report ) 跟作業的說明 ( Spec ) 
 * unmodified_code 放的是未經修改的程式壓縮檔
 * 其他的是修改過 ( 實作完成 ) 的程式碼
-* 然後 Pthreads 的作業好像每年都不一樣 ( 我找不到前人資產 )
+* 然後由於轉檔的效果不是很好，字有點小 ( 我很抱歉 ) ，所以建議可以下載 .ipnby 檔案放上 colab 看 ( 我當初是用 colab 寫的 ) 或者其他的都可以
 
 ## 其他參考資料
 **注意每年要求會有點不一樣，記得看看 spec 裡面怎麼寫的，了解一下比較好**
@@ -29,8 +29,9 @@ https://github.com/KangMingHsi/OS_Project/tree/master
 https://morris821028.github.io/categories/%E5%AD%B8%E6%A0%A1%E8%AA%B2%E7%A8%8B/%E4%BD%9C%E6%A5%AD%E7%B3%BB%E7%B5%B1/
 
 ## 最後
-以下是做作業時的我
-![](picture/1.jpg "")
+以下是做作業時各個階段的我
+
 ![](picture/2.jpg "")
+![](picture/1.jpg "")
 ![](picture/3.jpg "")
 ![MYGO 不錯吧](picture/MYGO!!!.jpeg "還在GO")
