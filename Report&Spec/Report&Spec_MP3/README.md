@@ -13,8 +13,17 @@ trace code 部分 : stackallocate, semaphore, switch 可以解釋更詳細, 可�
 
 我們當時跑的是 hw3_all.sh 的腳本驗證的，在裡面有一行程式如下，是用來比較你程式輸出與答案是否一致的指令
 
+```bash
 diff ".tmp/$testcase.txt" "./hw3_ans/${testcase}_ans.txt"
+```
 
 反正就是在 diff 這行程式的最後面加上 -y 就能夠同時輸出，你跑的跟正確答案並列，比較容易辨認錯在哪，改完應該類似下面這樣
 
+```bash
 diff ".tmp/$testcase.txt" "./hw3_ans/${testcase}_ans.txt" -y
+```
+
+那其實 diff 還支援很多功能，可通過在終端機輸入下方指令自己看
+```bash
+diff --help
+```

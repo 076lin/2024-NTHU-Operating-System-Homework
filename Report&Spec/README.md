@@ -189,3 +189,182 @@ else
     exit 1
 fi
 ```
+
+## 如何實現免密碼登入 ( Windows )
+### 方法一
+首先，打開 **Windows Powershell** 輸入 ( 由於 Windows 其實有兩個終端機，舊的叫 cmd 新的叫 Powershell 有部分指令不一樣 )
+
+```powershell
+ssh-keygen
+```
+
+此時會詢問3個問題：
+
+* Enter file in which to save the key
+* Enter passphrase
+* Enter same passphrase again
+
+基本上是問你生成的 key 存哪，然後是存的資料夾要不要設密碼 ( 要的話記得輸兩次一樣的 )，最簡單就是連按三次 Enter 這樣就是會自動生成資料夾儲存，以及不設密碼，當然理論上是設個密碼比較好，比較能保護隱私
+
+然後輸入下面指令
+
+```powershell
+Get-Content $env:userprofile\.ssh\id_rsa.pub
+```
+
+這樣會跳出一堆文字，那是你的 pubilc key ，全選複製，( 從 ssh 到 email 全部都要選到 )
+
+然後連線到你的遠端控制台 ( 應該會長下面這樣 ) 之後輸入
+
+![](../picture/7.png)
+
+```bash
+cd ~
+mkdir .ssh
+cd .ssh
+vim authorized_keys
+```
+
+然後按 s 進入編輯模式 ( **如果已經有東西了，要注意按 s 會吃掉一個字，記得幫忙補回去，然後按往右的方向鍵到最尾端按 Enter 換行** )，把你複製的 pubilc key 貼上去 ( 按滑鼠右鍵，然後選 paste 因為在 vim 中 ctrl + v 不會貼上 ) ，貼好了之後按 Esc ，然後輸入 **:wq** ( 就是輸入 :wq 冒號不準省略，阿如果你手殘，輸入 :q! ) 最後記得按 Enter ，這樣你就完成了 ( :wq 代表儲存並退出 :q! 代表不儲存並退出 )
+
+如果看到 mkdir: cannot create directory ‘.ssh’: File exists 不用慌張，當作沒看到就好
+### 方法二
+首先，打開 **Windows Powershell** 輸入 ( 由於 Windows 其實有兩個終端機，舊的叫 cmd 新的叫 Powershell 有部分指令不一樣 )
+
+```powershell
+ssh-keygen
+```
+
+此時會詢問3個問題：
+
+* Enter file in which to save the key
+* Enter passphrase
+* Enter same passphrase again
+
+基本上是問你生成的 key 存哪，然後是存的資料夾要不要設密碼 ( 要的話記得輸兩次一樣的 )，最簡單就是連按三次 Enter 這樣就是會自動生成資料夾儲存，以及不設密碼，當然理論上是設個密碼比較好，比較能保護隱私
+
+然後輸入下面指令， nachos 記得換成你的帳號，或者你有設定好了那當我沒說
+
+```powershell
+Get-Content $env:userprofile\.ssh\id_rsa.pub | ssh nachos "cat >> ~/.ssh/authorized_keys"
+```
+
+比如說，我是 os24team59 那我的輸入會像下面這樣
+
+```powershell
+Get-Content $env:userprofile\.ssh\id_rsa.pub | ssh os24team59@192.168.5.2 "cat >> ~/.ssh/authorized_keys"
+```
+
+然後再輸入你伺服器的密碼就完成啦，但這個方法需要你有裝 ssh ，不然就會像我下面這樣，但 openssh 怎麼裝我也不太會，就靠你自己研究了
+
+![](../picture/8.png)
+
+如果想知道 Powershell 跟 cmd 有什麼差可以稍微看下這影片，這樣你就大概能了解上面在幹嘛
+https://youtu.be/u0yKHP0onwU?si=3aUuIsz-dY9o9P92
+
+參考其他大佬的免密碼登入教學:
+https://hackmd.io/@QMYMj19MQTakfoKkZZO3jg/SJErCdJLi#1-%E8%AE%8A%E6%9B%B4hostname
+## VScode ssh remote
+就是使用終端機編輯檔案其實不太好用，用個圖形化介面會好多了，所以我來講一下應該怎麼搞 ( 記得你的 WireGuard 要連著 )
+
+首先，打開 VScode 點擊下面這個圖示 ( 或 Ctrl + Shift + X )
+
+![](../picture/9.png)
+
+然後搜尋 remote ssh 安裝下方圖片的那個 ( Remote - SSH ) 延伸模組
+
+![](../picture/10.png)
+
+安裝它，點就對了
+
+![](../picture/11.png)
+
+至於為什麼我有中文介面，那也是延伸模組，去找下面這個安裝就行
+
+![](../picture/12.png)
+
+然後我們應該如何連線?
+
+首先，點擊左下角 ( 下面圖片的那個東西 )
+
+![](../picture/13.png)
+
+然後你應該會跳出下方圖片的東西，點擊 Connect to Host...
+
+![](../picture/14.png)
+
+然後點擊設定 SSH 主機
+
+![](../picture/15.png)
+
+然後點 config 那個
+
+![](../picture/16.png)
+
+然後它應該就會打開一個文件，輸入如下 ( 記得存檔 )
+
+```
+Host nachos
+  HostName 192.168.5.2
+  User os24team59
+```
+
+Host 後面是輸入你這個要叫什麼，叫什麼都可以
+
+HostName 後面是輸入地址，就是輸入 @ 後面的東西
+
+User 後面輸入使用者，就是輸入 @ 前面的東西 ( **記得你要改成你的帳號，你輸入 os24team59 一定連不到** )
+
+那理論上，當你設定完成後下面指令 ( 在你終端機裡 )
+
+```bash
+ssh os24team59@192.168.5.2
+```
+
+就可以換成下面的 ( nachos 是因為我 Host 後面輸入 nachos 代表我的叫 nachos 你就看你的叫什麼就輸入什麼 )
+
+```bash
+ssh nachos
+```
+
+好了，這時你存完檔了，點擊左下角 ( 下面圖片的那個東西 )
+
+![](../picture/13.png)
+
+點擊 Connect to Host...
+
+![](../picture/14.png)
+
+然後你就會發現多了一個東西，像我就是 nachos 因為我命名叫 nachos ( 你如果叫別的就會是你 Host 後面寫的東西 )，點它
+
+![](../picture/17.png)
+
+然後它應該為叫你選東西，就選 linux
+
+然後應該會跳下面這個，按允許就對了
+
+![](../picture/18.png)
+
+這樣你就完成連線了 ( 如果你沒有免密碼登入的設定，那記得去輸密碼 )
+
+那此時應該如何開啟檔案?
+
+點擊檔案，開啟資料夾 ( 如下圖所示 )
+
+![](../picture/19.png)
+
+然後應該會跳下面這個，按確定就可以了
+
+![](../picture/20.png)
+
+這時你就可以跟平常使用 VScode 差不多，在左邊用檔案總管快速切換要存取的檔案了，這時儲存也就跟平時 VScode 儲存方式一樣，改完按 Ctrl + s 就可以了
+
+那當你改好後，你應該如何使用終端機?
+
+如下圖所示在左上方找到 ... -> 終端機 -> 新增終端機 ( 如果你螢幕夠長終端機選項會直接出現在左上方 ) ，點擊即可
+
+![](../picture/21.png)
+
+這時，應該就會跳出這個介面，這個終端機就可以使用啦
+
+![](../picture/22.png)
