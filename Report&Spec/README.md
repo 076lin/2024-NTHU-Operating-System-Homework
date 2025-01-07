@@ -368,3 +368,5 @@ ssh nachos
 這時，應該就會跳出這個介面，這個終端機就可以使用啦
 
 ![](../picture/22.png)
+
+也可以考慮看這個影片講解 https://youtu.be/nWXQS-mzlhA?si=tAPNK5w00946KPaM&t=389
