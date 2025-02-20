@@ -8,10 +8,12 @@ Feedback: 缺少問題回答
 # 其他提醒
 在實作中，有一項要求是實作 MemoryLimitException 在 AddrSpace::Load 中
 
+```cpp
 if(numPages > AddrSpace::remain){
     kernel->machine->RaiseException(MemoryLimitException, 0);
     return FALSE;
 }
+```
 
 **上方的程式碼一定要放在下方程式碼的上面，不然你 ASSERT 先呼叫了，你的 NachOS 就會停止，輸出就不會有 MemoryLimitException 的報錯**
 
