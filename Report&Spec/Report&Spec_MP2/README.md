@@ -17,6 +17,8 @@ if(numPages > AddrSpace::remain){
 
 **上方的程式碼一定要放在下方程式碼的上面，不然你 ASSERT 先呼叫了，你的 NachOS 就會停止，輸出就不會有 MemoryLimitException 的報錯**
 
+```cpp
 ASSERT(numPages <= NumPhysPages);
+```
 
 這個提醒是我有個朋友被扣分後跟我講的，補在 README 這裡提醒一下你
